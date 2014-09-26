@@ -31,13 +31,28 @@ var OkCorgiApp = function() {
 
     var elId = $(this).attr("id");
     var containerSelector = "";
+    var match = '';
+    var corgiId = $("li.active").attr("data-id");
 
     if (elId === "paw-left") {
       containerSelector = "#misses";
+      match = 'false';
     }
     else {
       containerSelector = "#matches";
+      match = 'true';
     }
+
+    console.log(match);
+    console.log(corgiId);
+
+    $.ajax({
+      type: "PUT",
+      url: '/corgis/' + corgiId,
+      data: { corgi: {match: match}},
+      dataType: "json"
+      //save to database
+    });
 
     // Append thumbnail list item to the #matches list
     $(containerSelector + " ul").append(createCorgiThumbnail());
@@ -46,9 +61,27 @@ var OkCorgiApp = function() {
   });
 }
 
-
 $(document).ready(function() {
 
   OkCorgiApp();
 
-});
+//make it so that when a Corgi is skipped, save data to "match" column in DB
+  //when button "#paw-left" submitted
+  // $('#paw-left').on('submit', function(e){
+  //   e.preventDefault();
+  //   result = ('#paw-left').val();
+  //use JSON via .ajax to add "false" value to match column in db
+    // $.ajax({
+    //   type: "PATCH",
+    //   url: 'corgis/',
+    //   data: 
+    //   //save to database
+    //   success: ,
+    // });
+ 
+//when corgi is chosen, save data to "match" (false) column in DB
+
+// When a user goes to the home page, they should see their previous skips or matches already in the correct columns
+  })
+
+// });
